@@ -10,20 +10,19 @@ const app = express();
 // Connect Database
 connectDB();
 
-// CORS Setup
+// ✅ Updated CORS Setup
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://your-vercel-project.vercel.app' // 🔁 Replace with your actual Vercel frontend URL
+  'https://healthtrackweb.vercel.app' // 👈 your actual frontend URL on Vercel
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
+    // Allow requests with no origin (e.g. Postman, curl, etc.)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
     } else {
-      return callback(new Error('Not allowed by CORS'));
+      callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true
